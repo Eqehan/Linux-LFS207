@@ -1,0 +1,45 @@
+*** Red Hat Package Manager (RPM) ***
+For system administrators, RPM makes software packages easy to manage
+
+<name>-<version>-<release>.<distro>.src.rpm
+sed-4.5-2.e18.src.rpm
+
+$ sudo rpm --rebuilddb		rebuild the database indices from the installed package headers
+
+All rpm inquiries include the -q option, which can be combined with numerous other query options:
+-f: allows you to determine which package a file came from
+-l: lists the contents of a specific package
+-a: all the packages installed on the system
+-i: information about the package
+-p: run the query against a package file instead of the package database
+
+$ rpm -q bash
+$ rpm -qf /bin/bash
+$ rpm -ql bash
+$ rpm -qi bash
+$ rpm -q --requires bash
+$ rpm -q --whatprovides libc.so.6
+
+The -V option to rpm allows you to verify whether the files from a particular package are consistent with the system’s RPM database. Use the rpm -Va command to verify all packages on the system.
+S: filesize differs
+M: mode differs (permissions and file type)
+5: MD5 sum differs
+D: device major/minor number mismatch
+L: readLink path mismatch
+U: user ownership differs
+G: group ownership differs
+T: mTime differs
+
+$ sudo rpm -ivh bash-4.4.19-12.el8_0.x86_64
+where the -i is for install, -v is for verbose, and -h means print hash marks to show progress.
+
+$ sudo rpm -e system-config-lvm 	The -e option causes rpm to uninstall (erase) a package. 
+$ rpm -Uvh bash-4.4.19-12.el8.x86_64.rpm	Updating replaces the original package (if installed)
+If you want to downgrade with rpm -U, you must add the --oldpackage option to the command line.
+$ sudo rpm -Fvh *.rpm		Freshening Packages
+$ sudo rpm -ivh kernel-{version}.{arch}.rpm		Upgrading the Linux Kernel
+
+$ rpm2archive bash-XXXX.rpm	rpm2archive is used to convert RPM package files to tar archives.
+>>create the bash-XXXX.rpm.tgz file
+
+$ rpm2cpio bash-XXXX.rpm > bash.cpio	 convert package files to cpio archives

@@ -1,0 +1,32 @@
+*** PROCESSES ***
+ ulimit -a			displays or resets process resource limits
+$ ulimit [options] [limit	set any particular limit
+$ ulimit -H -n			hard limit
+
+Foreground jobs run from the shell, delaying access to the shell until the job has finished
+The background job will run at a lower priority, allowing interactive work to go smoothly. You can also log off the terminal window without affecting the background job.
+$ sudo updatedb &
+Adding an ampersand (&) after a command will run the command in the background
+1- $ sleep 100
+2- ^Z
+3- $ bg
+
+$ jobs			jobs command shows background processes in the current terminal
+$ at now + 2 days	executes any non-interactive command at a specified time.
+atq to see the job information, or delete queued jobs
+
+$ ls -l /etc/cron.d	It is used for any job that needs to run on a regular schedule
+
+$ (sleep 600; launchbackup.sh) &	delay commands
+
+User Mode: it is isolated in its own user space to protect it from other processes.
+Kernel Mode: In kernel (system) mode, the CPU has full access to all hardware on the system, including peripherals, memory, disks, etc.
+Daemons: daemon process is a background process whose sole purpose is to provide some specific service to users of the system.
+Process priority can be controlled through the nice and renice commands. 
+$ nice -n 10 myprog 
+$ nice -n 19 myprog	runs myprog with the lowest priority
+$ nice -n -20 myprog	runs myprog with the highest priority
+$ renice +5 -p 20003	renice its priority 
+*use ps lf for learn program ppid
+	
+$ uptime		how long your system has been up, and also display its load average

@@ -1,0 +1,13 @@
+*** The Ext4 Filesystem ***
+The ext4 filesystem can support volumes up to 1 EB and file sizes up to 16 TB. Extents replace the older block mapping mechanism.
+Include administrative information
+High redundancy of information in block groups
+Other blocks store file data
+
+sudo dumpe2fs /dev/sda1 | grep superblock
+
+the filesystem is checked every maximum-mount-counts or every 180 days, whichever comes first.
+$ sudo dumpe2fs /dev/sdb1	scan the filesystem information such as limits, capabilities and flags, as well as other attributes.
+
+tune2fs can be used to change filesystem parameters.
+$ sudo tune2fs -c 25 /dev/sda1

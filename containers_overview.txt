@@ -1,0 +1,38 @@
+*** CONTAINERS OVERVIEW ***
+Podman: docker for redhat systems
+Podman uses a child/parent forking model for container creation and management, while Docker uses a server/client model with a daemon running in the background for management.
+$ sudo dnf install podman podman-docker
+
+$ sudo dnf install podman podman-docker slirp4netns     # RHEL/CentOS, Fedora
+$ sudo apt install podman podman-docker slirp4netns     # Ubuntu-22.04, Debian
+$ sudo systemctl start podman.socket
+$ sudo podman search apache
+
+
+*** LINUX FILESYSTEMS AND THE VFS ***
+inode: he inode is used by the operating system to keep track of properties such as name, location, file attributes (permissions, ownership, etc.), access times and other items
+
+$ cat /proc/filesystems		You can see a list of the filesystem types currently registered and understood by the currently running Linux kernel
+
+full read and write access, including:
+ext4: Linux native filesystem (and earlier ext2 and ext3)
+XFS: A high-performance filesystem originally created by SGI
+JFS: A high-performance filesystem originally created by IBM
+Windows-natives: FAT12, FAT16, FAT32, VFAT, NTFS
+Pseudo-filesystems resident only in memory, including proc, sysfs, devfs, debugfs
+Network filesystems such as NFS, coda, afs
+
+Special Filesystems
+rootfs	None	During kernel load, provides an empty root directory
+hugetlbfs	Anywhere	Provides extended page access (2 or 4 MB on X86)
+bdev	None	Used for block devices
+proc	/proc	Pseudofilesystem access to many kernel structures and subsystems
+sockfs	None	Used by BSD Sockets
+tmpfs	Anywhere	RAM disk with swapping, re-sizing
+shm	None	Used by System V IPC Shared Memory
+pipefs	None	Used for pipes
+binfmt_misc	Anywhere	Used by various executable formats
+devpts	/dev/pts	Used by Unix98 pseudo-terminals
+usbfs	/proc/bus/usb	Used by USB sub-system for dynamical devices
+sysfs	/sys	Used as a device tree
+debugfs	/sys/kernel/debug	Used for simple debugging file access

@@ -1,0 +1,43 @@
+*** INTRODUCTION TO GIT ***
+
+>> DCO : When you use the -s option, each commit will have a message embedded such as:
+Signed-off-by: Some Developer
+<some-developer@example.com>
+
+$ git help
+$ git help command
+$ git help commit
+$ man git-commit
+$ git --version
+
+>> Create a local project:
+$ mkdir git-test
+$ cd git-test
+$ git init
+$ ls -l .git
+$ echo some junk > somejunkfile		create a file and add it to the project
+$ git add somejunkfile
+$ git status 		current status of our project
+
+>> login to git 
+$ git config user.name "Another Genius"
+$ git config user.email "a_genius@linux.com"
+
+>>modifications
+$ echo another line >> somejunkfile
+$ git diff
+$ git add somejunkfile
+$ git commit -m "My initial commit"	actually commit the changes to the repository
+
+$ git log	History
+$ git commit -s -m "My initial commit"		adding a Signed-off-by line to the commit with the -s option.
+
+>>renaming existing repo
+$ git checkout master
+# Change the local name
+$ git branch -m master main
+# Change the remote name
+$ git push -u origin main
+$ git symbolic-ref refs/remotes/origin/HEAD refs/remotes/origin/main
+# Confirm the names!
+$ git branch -a

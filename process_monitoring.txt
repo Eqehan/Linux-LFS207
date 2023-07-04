@@ -1,0 +1,55 @@
+
+*** PROCESS MONITORING ***
+Keeping track of running (and sleeping) processes is an essential system administration task.
+ps
+
+top		Process activity, dynamically updated
+uptime		How long the system is running and the average load
+ps		Detailed information about processes
+pstree		A tree of processes and their connections
+mpstat		Multiple processor usage
+iostat		CPU utilization and I/O statistics
+sar		Display and collect information about system activity
+numastat	Information about NUMA (Non-Uniform Memory Architecture)
+strace		Information about all system calls a process makes
+
+-o option allows the user to print out a selected list of ps fields.
+pid: 	Process ID
+uid: 	User ID of process owner
+cmd: 	Command with all arguments
+cputime: Cumulative CPU time
+pmem: 	Ratio of the process's resident set size to the physical memory on the machine, expressed as a percentage
+$ ps -o pid
+
+$ pstree -aAp 2408	
+
+ls /proc	/proc contains a subdirectory for each active process, named by the process id (PID)
+/proc/self is the currently executing process.
+
+>>Memory Monitoring Utilities
+free	Brief summary of memory usage	
+vmstat	Detailed virtual memory statistics and block I/O, dynamically updated	
+pmap	Process memory map	
+
+$ vmstat [options] [delay] [count]
+If the option -S m is given, memory statistics will be in MB instead of KB.
+the -a option, vmstat displays information about active and inactive memory
+$ vmstat -SM -a 2 4
+
+The pseudofile /proc/meminfo contains a wealth of information about how memory is being used.
+$ cat /proc/meminfo
+The /proc/sys/vm directory contains many tunable knobs to control the Virtual Memory system.
+$ ls /proc/sys/vm
+
+
+$ cat /proc/swaps
+$ free -m
+mkswap: format swap partitions or files
+swapon: activate swap partitions or files
+swapoff: deactivate swap partitions or files
+
+OOM Killer Algorithms
+One can modify and even turn off overcommission by setting the value of /proc/sys/vm/overcommit_memory:
+0: (default) Permit overcommission, but refuse obvious overcommits
+1: All memory requests are allowed to overcommit.
+2: Turn off overcommission.

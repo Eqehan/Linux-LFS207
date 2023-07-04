@@ -1,0 +1,18 @@
+*** ZYPPER ***
+the zypper program provides a higher level of intelligent services for using the underlying rpm program, and plays the same role as dnf on Red Hat-based systems
+zypper is the command line tool for installing and managing packages
+
+$ zypper list-updates		Shows a list of available updates:
+$ zypper repos		Lists available repositories:
+$ zypper search <string>	Searches repositories for string:
+$ zypper info firefox		Lists information about a package:
+$ zypper search --provides /usr/bin/firefox 	Searches repositories to show what packages provide a file:
+
+$ sudo zypper install firefox
+$ sudo zypper --non-interactive install firefox		Does not ask for confirmation when installing or upgrading (this is useful for scripts):
+$ sudo zypper update
+$ sudo zypper --non-interactive update 		Updates all packages on the system from a repository, but does not ask for confirmation (this is useful for scripts):
+
+$ sudo zypper addrepo URI alias		add a new repository which is located at the supplied URI and will use the supplied alias.
+$ sudo zypper removerepo alias		remove a repository from the list
+$ sudo zypper clean [--all]

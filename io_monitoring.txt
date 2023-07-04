@@ -1,0 +1,18 @@
+*** I/O MONITORING AND TUNING ***
+$ iostat [OPTIONS] [devices] [interval] [count]		utility for monitoring I/O device activity on the system.
+-k option, which shows results in KB instead of blocks
+-m to get results in MB.
+-x option more detailed report can be obtained by using the 
+
+$ iotop --help		It displays a table of current I/O usage and updates periodically, like top. 
+$ sudo iotop output
+-o option can be useful to avoid clutter
+
+$ bonnie++ --help	widely available benchmarking program that tests and measures the performance
+$  time sudo bonnie++ -n 0 -u 0 -r 100 -f -b -d /mnt
+-n 0means don’t perform the file creation tests.
+-u 0means run as root.
+-r 100means pretend you have 100 MB of RAM.
+-fmeans skip per character I/O tests.
+-bmeans do afsyncafter every write, which forces flushing to disk rather than just writing to cache.
+-d /mntjust specifies the directory to place the temporary file created; make sure it has enough space, in this case 300MB, available.

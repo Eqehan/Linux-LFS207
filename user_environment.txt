@@ -1,0 +1,6 @@
+$ bash                # Go into a new sub-shell
+$ sleep 1000          # Sleep for 1,000 seconds
+$ history
+$ echo $HISTFILE
+$ history | head -5
+$ alias  Deploying aliases allows us to define short cuts to alleviate the pain of all of this typing.

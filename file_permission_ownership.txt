@@ -1,0 +1,20 @@
+$ chmod  	Changing file permissions is done with
+$ chmod uo+x,g-w a_file		[u stands for user (owner), o stands for other (world), and g stands for group] for a_file
+
+chmod 755 somefile		 
+octal shorthand= 4 if the read permission is desired
+2 if the write permission is desired
+1 if execute permission is desired
+7 means read/write/execute
+6 means read/write
+5 means read/execute.
+
+$ sudo chown	Changing file ownership
+$ sudo chgrp	 changing the group ownership		
+$ sudo chown -R wally:cleavers ./	Use the -R option for recursive as presented
+
+$ umask		 show which permissions should be denied
+
+Use getfacl/setfacl to get/set POSIX ACLs (Access Control Lists).
+$ getfacl /home/stephane/file1
+$ setfacl -m u:isabelle:rx /home/stephane/file1

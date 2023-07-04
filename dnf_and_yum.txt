@@ -1,0 +1,18 @@
+
+*** DNF AND YUM ***
+The dnf program provides resolve dependencies when installing, updating and removing packages.
+
+
+$ sudo dnf update
+$ sudo dnf check-update		Check to see if there are any available updates for your system
+$ sudo dnf list update
+$ sudo dnf list installed "kernel*"	List all installed kernel-related packages, and list all installed or available ones.
+$ sudo dnf list "kernel*
+$ sudo dnf search bash		All packages that contain a reference tobash
+$ sudo dnf list bash		Installed and availablebashpackages.
+$ sudo dnf info bash		 The package information forbash.
+$ sudo dnf deplist bash		dependencies for the bash package
+$ dnf grouplist		group list
+$ sudo dnf groupinstall "Virtualization Host"	
+$ sudo dnf groupremove "Virtualization Host"	
+$ sudo dnf install webmin	Adding a New Repository	“Webminis a web-based interface for system administration for Unix.

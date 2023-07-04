@@ -1,0 +1,29 @@
+*** DISK PARTITIONING***
+$ sudo fdisk -l /dev/sdc |grep -i sector	geometry with fdisk
+ -l option which simply lists the partition table without entering interactive mode.
+
+MBR (Master Boot Record)
+GPT (GUID Partition Table)
+
+Modern hardware comes with GPT support; MBR support will gradually fade away.
+$ sudo blkid /dev/sda8		The blkid utility (to be discussed later) shows information about partitions.
+
+$ lsblk -h	block device information in a tree format
+
+>> dd can be used for converting and copying files.
+***be careful using dd: a simple typing error or misused option could destroy your entire disk.
+$ sudo dd if=mbrbackup of=/dev/sda bs=512 count=1
+x8:/tmp>sudo sgdisk -p /dev/sda
+
+
+fdisk is a menu-driven partition table editor
+sfdisk command is a non-interactive Linux-based partition editor program
+parted is the GNU partition manipulation program. 
+$ sudo fdisk /dev/sdb
+m: Display the menu
+p: List the partition table
+n: Create a new partition
+d: Delete a partition
+t: Change a partition type
+w: Write the new partition table information and exit
+q: Quit without making changes

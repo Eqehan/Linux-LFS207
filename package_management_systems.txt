@@ -1,0 +1,19 @@
+*** PACKAGE MANAGEMENT SYSTEMS ***
+system administrators can use package management systems to make their installation processes scale to thousands of systems without requiring manual work on each individual system.
+rpm: Red Hat-derived distributions, such as Red Hat Enterprise Linux, Fedora, CentOS
+apt: This system is used by all Debian-derived distributions, including Debian, Ubuntu and Linux Mint
+
+$ sudo apt install git*      # Debian /Ubuntu
+$ sudo zypper install git*   # openSUSE
+
+$ mkdir git-test
+$ cd git-test
+$ git init
+$ echo some junk > somejunkfile
+$ git add somejunkfile
+$ git status
+$ git config user.name "Another Genius"
+$ git config user.email "b_genius@linux.com"
+$ git diff			modified file
+$  git commit -m "My initial commit"
+$ git log  	git history

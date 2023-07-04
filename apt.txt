@@ -1,0 +1,23 @@
+***  APT (Advanced Packaging Tool)  ***
+
+The main utilities are apt and apt-cache
+The APT system works with .deb extension
+Queries are done using the apt-cache or apt-file utilities
+
+$ sudo apt-get install apt-file
+$ sudo apt-file update
+$ apt-cache search apache2	To search the repository for a package named apache2:
+$ apt-cache show apache2	To display basic information about the apache2 package:
+$ apt-cache showpkg apache2	To display detailed information about the apache2 package:
+$ apt-cache depends apache2	List all dependent packages for apache2:
+$ apt-file search apache2.conf	Search the repository for a file named apache2.conf:
+$ apt-file list apache2		List all files in the apache2 package:
+
+$ sudo apt install [package]
+$ sudo apt remove [package]
+$ sudo apt --purge remove [package]	Used to remove a package and its configuration files from a system:
+$ sudo apt update
+$ sudo apt upgrade
+$ sudo apt dist-upgrade		Note that you must update before you upgrade, 
+$ sudo apt autoremove		This command gets rid of any packages not needed anymore
+$ sudo apt clean		cleans out cache files

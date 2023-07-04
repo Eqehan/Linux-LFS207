@@ -1,0 +1,36 @@
+*** FILESYSTEM FEATURES: ATTRIBUTES, CREATING, CHECKING, USAGE, MOUNTING ***
+rpm -Va to check the integrity of all packages.
+$ sudo mount -o remount,rw /		remount it with write permission.
+$ sudo mount -a				to try and mount all filesystems
+$ fsck [-t fstype] [options] [device-file]	utility designed to check for errors
+
+df: Filesystem Usage
+du: Disk Usage
+
+mount program allows attaching at any point in the tree structure; 
+umount allows detaching them.
+$ mount [options] <source> <directory>
+$ umount [device-file | mount-point
+
+Network Shares (NFS)
+It is common to mount remote filesystems through network shares, so they appear as if they were on the local machine.
+$ sudo mount -t nfs myserver.com:/shdir /mnt/shdir​
+
+$ mount -a	is executed in order to mount all filesystems listed in the /etc/fstab file.
+
+ Network Block Device is a Linux protocol designed to export a block device from a source computer (server) to a target (client)
+Use dd to create an empty file
+Define the item to be shared by the server in a configuration file
+Activate the nbd kernel module
+Query the server with the client using the export name, IP address and port
+Associate the local /dev/nbd block driver with the server with the nbd-client command
+Use fdisk to partition the nbd
+Add a filesystem to the nbd and mount it
+
+nbdkit: CentOS, Fedora, Debian, Ubuntu
+nbd-client and nbd-server: Ubuntu, Debian
+nbd (from GitHub): CentOS, Fedora, Debian, Ubuntu
+xNBD-client and xNBD-server: Debian
+qemu-img: CentOS
+
+$ sudo nbd-server -C nbd-server.conf		Start the nbd server process

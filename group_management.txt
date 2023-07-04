@@ -1,0 +1,9 @@
+$ sudo groupadd		Add a new group
+$ sudo groupmod		Modify a group and add new users
+$ sudo groupdel		Remove a group
+$ sudo usermod		Manage user membership
+
+$ ls -l /usr/bin/vi		long listing of a file
+r: read access is allowed
+w: write access is allowed
+x: execute access is allowed

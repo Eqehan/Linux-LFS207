@@ -1,0 +1,27 @@
+$ who 	Determine the Current User
+$ sudo useradd eqehan	Creating User Accounts with useradd
+$ sudo userdel eqehan 	The root user can delete user accounts with userdel
+$ sudo usermod -L eqehan 	locks the account for eqehan so they cannot login
+$ sudo chage -E 2001-09-11 eqehan	lock an account is to use chage to change the expiration date of an account, as in the following command
+$ passwd	Passwords can be changed with passwd
+$ sudo passwd eqehan	
+$ sudo chage [-m mindays] [-M maxdays] [-d lastday] [-I inactive] [-E expiredate] [-W warndays] user		Password Aging (chage)
+
+
+SSH (Secure SHell
+$ ssh farflung.com
+$ ssh root@farflung.com
+$ ssh -l root farflung.com
+
+$ scp file.txt farflung.com:/tmp
+$ scp file.tex student@farflung.com/home/student
+$ scp -r some_dir farflung.com:/tmp/some_dir
+
+$ pssh -viH machine1 machine2 machine3 do_something 	 pssh (Parallel SSH) utility to execute a command on multiple systems
+
+$ ssh-keygen		First a user has to generate their private and public encryption keys with ssh-keygen
+$ cat authorized_keys	authorized_keys contains information about users and machines.
+student@ubuntu: ̃/.ssh$ ̃/.ssh$ ls -l	Recreating a public can be done with ssh-keygen
+
+$ vncserver		You can login into remote machine with full graphical desktop.
+$ vncviewer -via student@some_machine localhost:2

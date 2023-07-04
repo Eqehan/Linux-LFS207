@@ -1,0 +1,18 @@
+*** Debian Package Manager (DPKG) ***
+DPKG (Debian Package) is the packaging system used to install, remove, and manage software packages under Debian Linux and other distributions derived from it
+Package files have a .deb suffix and the DPKG database resides in the /var/lib/dpkg directory.
+The standard naming format for a binary package is: <name>_<version>-<revision_number>_<architecture>.deb
+
+$ dpkg -s dpkg | grep -i version		what version of a particular package is installed
+$ sudo dpkg -V				verify all packages on the system
+List all packages installed:	$ dpkg -l
+List files installed in the wget package:	$ dpkg -L wget
+Show information about an installed package:	$ dpkg -s wget
+Show information about a package file:	$ dpkg -I webfs_1.21+ds1-8_amd64.deb
+List files in a package file:	$ dpkg -c webfs_1.21+ds1-8_amd64.deb
+Show what package owns the /etc/init/networking.conf file:	$ dpkg -S /etc/init/networking.conf
+Verify the installed package's integrity:	$ dpkg -V package
+
+$ sudo dpkg -i foobar.deb		"i" means If the package is not currently installed, then it will be installed
+$ sudo dpkg -r package			"r" means remove
+$ sudo dpkg -P package			"P" means remove alll files with config. yes.

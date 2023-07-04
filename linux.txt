@@ -1,0 +1,1039 @@
+/	Primary directory of the entire filesystem hierarchy
+/bin	Essential executable programs that must be available in single user mode
+/boot	Files needed to boot the system, such as the kernel, initrd or initramfs images, and boot configuration files and bootloader programs
+/dev	Device Nodes, used to interact with hardware and software devices
+/etc	System-wide configuration files
+/home	User home directories, including personal settings, files, etc.
+/lib	Libraries required by executable binaries in /bin and /sbin
+/lib64	64-bit libraries required by executable binaries in /bin and /sbin, for systems which can run both 32-bit and 64-bit programs
+/media	Mount points for removable media such as CDs, DVDs, USB sticks, etc.
+/mnt	Temporarily mounted filesystems
+/opt	Optional application software packages
+/proc	Virtual pseudo-filesystem giving information about the system and processes running on it. Can be used to alter system parameters.
+/run	Run-time variable data, containing information describing the system since it was booted. Replaces the older /var/run
+/sys	Virtual pseudo-filesystem giving information about the system and processes running on it. Can be used to alter system parameters. Similar to a device tree and is part of the Unified Device Model.
+/root	Home directory for the root user
+/sbin	Essential system binaries
+/srv	Site-specific data served up by the system. Seldom used.
+/tmp	Temporary files; on many distributions lost across a reboot and may be a ramdisk in memory.
+/usr	Multi-user applications, utilities and data; theoretically read-only.
+/var	Variable data that changes during system operation
+
+*** USER ENVIRONMENT ***
+
+$ bash                # Go into a new sub-shell
+$ sleep 1000          # Sleep for 1,000 seconds
+$ history
+$ echo $HISTFILE
+$ history | head -5
+$ alias  Deploying aliases allows us to define short cuts to alleviate the pain of all of this typing.
+
+*** USER ACCOUNT MANAGEMENT ***
+
+$ who 	Determine the Current User
+$ sudo useradd eqehan	Creating User Accounts with useradd
+$ sudo userdel eqehan 	The root user can delete user accounts with userdel
+$ sudo usermod -L eqehan 	locks the account for eqehan so they cannot login
+$ sudo chage -E 2001-09-11 eqehan	lock an account is to use chage to change the expiration date of an account, as in the following command
+$ passwd	Passwords can be changed with passwd
+$ sudo passwd eqehan	
+$ sudo chage [-m mindays] [-M maxdays] [-d lastday] [-I inactive] [-E expiredate] [-W warndays] user		Password Aging (chage)
+
+
+SSH (Secure SHell
+$ ssh farflung.com
+$ ssh root@farflung.com
+$ ssh -l root farflung.com
+
+$ scp file.txt farflung.com:/tmp
+$ scp file.tex student@farflung.com/home/student
+$ scp -r some_dir farflung.com:/tmp/some_dir
+
+$ pssh -viH machine1 machine2 machine3 do_something 	 pssh (Parallel SSH) utility to execute a command on multiple systems
+
+$ ssh-keygen		First a user has to generate their private and public encryption keys with ssh-keygen
+$ cat authorized_keys	authorized_keys contains information about users and machines.
+student@ubuntu: ̃/.ssh$ ̃/.ssh$ ls -l	Recreating a public can be done with ssh-keygen
+
+$ vncserver		You can login into remote machine with full graphical desktop.
+$ vncviewer -via student@some_machine localhost:2	
+
+*** GROUP MANAGEMENT ***
+
+$ sudo groupadd		Add a new group
+$ sudo groupmod		Modify a group and add new users
+$ sudo groupdel		Remove a group
+$ sudo usermod		Manage user membership
+
+$ ls -l /usr/bin/vi		long listing of a file
+r: read access is allowed
+w: write access is allowed
+x: execute access is allowed
+
+***FILE PERMISSIONS AND OWNERSHIP***
+
+$ chmod  	Changing file permissions is done with
+$ chmod uo+x,g-w a_file		[u stands for user (owner), o stands for other (world), and g stands for group] for a_file
+
+chmod 755 somefile		 
+octal shorthand= 4 if the read permission is desired
+2 if the write permission is desired
+1 if execute permission is desired
+7 means read/write/execute
+6 means read/write
+5 means read/execute.
+
+$ sudo chown	Changing file ownership
+$ sudo chgrp	 changing the group ownership		
+$ sudo chown -R wally:cleavers ./	Use the -R option for recursive as presented
+
+$ umask		 show which permissions should be denied
+
+Use getfacl/setfacl to get/set POSIX ACLs (Access Control Lists).
+$ getfacl /home/stephane/file1
+$ setfacl -m u:isabelle:rx /home/stephane/file1
+
+*** PACKAGE MANAGEMENT SYSTEMS ***
+system administrators can use package management systems to make their installation processes scale to thousands of systems without requiring manual work on each individual system.
+rpm: Red Hat-derived distributions, such as Red Hat Enterprise Linux, Fedora, CentOS
+apt: This system is used by all Debian-derived distributions, including Debian, Ubuntu and Linux Mint
+
+$ sudo apt install git*      # Debian /Ubuntu
+$ sudo zypper install git*   # openSUSE
+
+$ mkdir git-test
+$ cd git-test
+$ git init
+$ echo some junk > somejunkfile
+$ git add somejunkfile
+$ git status
+$ git config user.name "Another Genius"
+$ git config user.email "b_genius@linux.com"
+$ git diff			modified file
+$  git commit -m "My initial commit"
+$ git log  	git history	
+
+
+*** Debian Package Manager (DPKG) ***
+DPKG (Debian Package) is the packaging system used to install, remove, and manage software packages under Debian Linux and other distributions derived from it
+Package files have a .deb suffix and the DPKG database resides in the /var/lib/dpkg directory.
+The standard naming format for a binary package is: <name>_<version>-<revision_number>_<architecture>.deb
+
+$ dpkg -s dpkg | grep -i version		what version of a particular package is installed
+$ sudo dpkg -V				verify all packages on the system
+List all packages installed:	$ dpkg -l
+List files installed in the wget package:	$ dpkg -L wget
+Show information about an installed package:	$ dpkg -s wget
+Show information about a package file:	$ dpkg -I webfs_1.21+ds1-8_amd64.deb
+List files in a package file:	$ dpkg -c webfs_1.21+ds1-8_amd64.deb
+Show what package owns the /etc/init/networking.conf file:	$ dpkg -S /etc/init/networking.conf
+Verify the installed package's integrity:	$ dpkg -V package
+
+$ sudo dpkg -i foobar.deb		"i" means If the package is not currently installed, then it will be installed
+$ sudo dpkg -r package			"r" means remove
+$ sudo dpkg -P package			"P" means remove alll files with config. yes.
+
+
+***  APT (Advanced Packaging Tool)  ***
+
+The main utilities are apt and apt-cache
+The APT system works with .deb extension
+Queries are done using the apt-cache or apt-file utilities
+
+$ sudo apt-get install apt-file
+$ sudo apt-file update
+$ apt-cache search apache2	To search the repository for a package named apache2:
+$ apt-cache show apache2	To display basic information about the apache2 package:
+$ apt-cache showpkg apache2	To display detailed information about the apache2 package:
+$ apt-cache depends apache2	List all dependent packages for apache2:
+$ apt-file search apache2.conf	Search the repository for a file named apache2.conf:
+$ apt-file list apache2		List all files in the apache2 package:
+
+$ sudo apt install [package]
+$ sudo apt remove [package]
+$ sudo apt --purge remove [package]	Used to remove a package and its configuration files from a system:
+$ sudo apt update
+$ sudo apt upgrade
+$ sudo apt dist-upgrade		Note that you must update before you upgrade, 
+$ sudo apt autoremove		This command gets rid of any packages not needed anymore
+$ sudo apt clean		cleans out cache files
+
+
+*** Red Hat Package Manager (RPM) ***
+For system administrators, RPM makes software packages easy to manage
+
+<name>-<version>-<release>.<distro>.src.rpm
+sed-4.5-2.e18.src.rpm
+
+$ sudo rpm --rebuilddb		rebuild the database indices from the installed package headers
+
+All rpm inquiries include the -q option, which can be combined with numerous other query options:
+-f: allows you to determine which package a file came from
+-l: lists the contents of a specific package
+-a: all the packages installed on the system
+-i: information about the package
+-p: run the query against a package file instead of the package database
+
+$ rpm -q bash
+$ rpm -qf /bin/bash
+$ rpm -ql bash
+$ rpm -qi bash
+$ rpm -q --requires bash
+$ rpm -q --whatprovides libc.so.6
+
+The -V option to rpm allows you to verify whether the files from a particular package are consistent with the system’s RPM database. Use the rpm -Va command to verify all packages on the system.
+S: filesize differs
+M: mode differs (permissions and file type)
+5: MD5 sum differs
+D: device major/minor number mismatch
+L: readLink path mismatch
+U: user ownership differs
+G: group ownership differs
+T: mTime differs
+
+$ sudo rpm -ivh bash-4.4.19-12.el8_0.x86_64
+where the -i is for install, -v is for verbose, and -h means print hash marks to show progress.
+
+$ sudo rpm -e system-config-lvm 	The -e option causes rpm to uninstall (erase) a package. 
+$ rpm -Uvh bash-4.4.19-12.el8.x86_64.rpm	Updating replaces the original package (if installed)
+If you want to downgrade with rpm -U, you must add the --oldpackage option to the command line.
+$ sudo rpm -Fvh *.rpm		Freshening Packages
+$ sudo rpm -ivh kernel-{version}.{arch}.rpm		Upgrading the Linux Kernel
+
+$ rpm2archive bash-XXXX.rpm	rpm2archive is used to convert RPM package files to tar archives.
+>>create the bash-XXXX.rpm.tgz file
+
+$ rpm2cpio bash-XXXX.rpm > bash.cpio	 convert package files to cpio archives
+
+
+*** DNF AND YUM ***
+The dnf program provides resolve dependencies when installing, updating and removing packages.
+
+
+$ sudo dnf update
+$ sudo dnf check-update		Check to see if there are any available updates for your system
+$ sudo dnf list update
+$ sudo dnf list installed "kernel*"	List all installed kernel-related packages, and list all installed or available ones.
+$ sudo dnf list "kernel*
+$ sudo dnf search bash		All packages that contain a reference tobash
+$ sudo dnf list bash		Installed and availablebashpackages.
+$ sudo dnf info bash		 The package information forbash.
+$ sudo dnf deplist bash		dependencies for the bash package
+$ dnf grouplist		group list
+$ sudo dnf groupinstall "Virtualization Host"	
+$ sudo dnf groupremove "Virtualization Host"	
+$ sudo dnf install webmin	Adding a New Repository	“Webminis a web-based interface for system administration for Unix.
+
+
+*** ZYPPER ***
+the zypper program provides a higher level of intelligent services for using the underlying rpm program, and plays the same role as dnf on Red Hat-based systems
+zypper is the command line tool for installing and managing packages
+
+$ zypper list-updates		Shows a list of available updates:
+$ zypper repos		Lists available repositories:
+$ zypper search <string>	Searches repositories for string:
+$ zypper info firefox		Lists information about a package:
+$ zypper search --provides /usr/bin/firefox 	Searches repositories to show what packages provide a file:
+
+$ sudo zypper install firefox
+$ sudo zypper --non-interactive install firefox		Does not ask for confirmation when installing or upgrading (this is useful for scripts):
+$ sudo zypper update
+$ sudo zypper --non-interactive update 		Updates all packages on the system from a repository, but does not ask for confirmation (this is useful for scripts):
+
+$ sudo zypper addrepo URI alias		add a new repository which is located at the supplied URI and will use the supplied alias.
+$ sudo zypper removerepo alias		remove a repository from the list
+$ sudo zypper clean [--all]
+
+
+*** INTRODUCTION TO GIT ***
+
+>> DCO : When you use the -s option, each commit will have a message embedded such as:
+Signed-off-by: Some Developer
+<some-developer@example.com>
+
+$ git help
+$ git help command
+$ git help commit
+$ man git-commit
+$ git --version
+
+>> Create a local project:
+$ mkdir git-test
+$ cd git-test
+$ git init
+$ ls -l .git
+$ echo some junk > somejunkfile		create a file and add it to the project
+$ git add somejunkfile
+$ git status 		current status of our project
+
+>> login to git 
+$ git config user.name "Another Genius"
+$ git config user.email "a_genius@linux.com"
+
+>>modifications
+$ echo another line >> somejunkfile
+$ git diff
+$ git add somejunkfile
+$ git commit -m "My initial commit"	actually commit the changes to the repository
+
+$ git log	History
+$ git commit -s -m "My initial commit"		adding a Signed-off-by line to the commit with the -s option.
+
+>>renaming existing repo
+$ git checkout master
+# Change the local name
+$ git branch -m master main
+# Change the remote name
+$ git push -u origin main
+$ git symbolic-ref refs/remotes/origin/HEAD refs/remotes/origin/main
+# Confirm the names!
+$ git branch -a
+
+
+*** PROCESSES ***
+ ulimit -a			displays or resets process resource limits
+$ ulimit [options] [limit	set any particular limit
+$ ulimit -H -n			hard limit
+
+Foreground jobs run from the shell, delaying access to the shell until the job has finished
+The background job will run at a lower priority, allowing interactive work to go smoothly. You can also log off the terminal window without affecting the background job.
+$ sudo updatedb &
+Adding an ampersand (&) after a command will run the command in the background
+1- $ sleep 100
+2- ^Z
+3- $ bg
+
+$ jobs			jobs command shows background processes in the current terminal
+$ at now + 2 days	executes any non-interactive command at a specified time.
+atq to see the job information, or delete queued jobs
+
+$ ls -l /etc/cron.d	It is used for any job that needs to run on a regular schedule
+
+$ (sleep 600; launchbackup.sh) &	delay commands
+
+User Mode: it is isolated in its own user space to protect it from other processes.
+Kernel Mode: In kernel (system) mode, the CPU has full access to all hardware on the system, including peripherals, memory, disks, etc.
+Daemons: daemon process is a background process whose sole purpose is to provide some specific service to users of the system.
+Process priority can be controlled through the nice and renice commands. 
+$ nice -n 10 myprog 
+$ nice -n 19 myprog	runs myprog with the lowest priority
+$ nice -n -20 myprog	runs myprog with the highest priority
+$ renice +5 -p 20003	renice its priority 
+*use ps lf for learn program ppid
+	
+$ uptime		how long your system has been up, and also display its load average
+
+
+*** PROCESS MONITORING ***
+Keeping track of running (and sleeping) processes is an essential system administration task.
+ps
+
+top		Process activity, dynamically updated
+uptime		How long the system is running and the average load
+ps		Detailed information about processes
+pstree		A tree of processes and their connections
+mpstat		Multiple processor usage
+iostat		CPU utilization and I/O statistics
+sar		Display and collect information about system activity
+numastat	Information about NUMA (Non-Uniform Memory Architecture)
+strace		Information about all system calls a process makes
+
+-o option allows the user to print out a selected list of ps fields.
+pid: 	Process ID
+uid: 	User ID of process owner
+cmd: 	Command with all arguments
+cputime: Cumulative CPU time
+pmem: 	Ratio of the process's resident set size to the physical memory on the machine, expressed as a percentage
+$ ps -o pid
+
+$ pstree -aAp 2408	
+
+ls /proc	/proc contains a subdirectory for each active process, named by the process id (PID)
+/proc/self is the currently executing process.
+
+>>Memory Monitoring Utilities
+free	Brief summary of memory usage	
+vmstat	Detailed virtual memory statistics and block I/O, dynamically updated	
+pmap	Process memory map	
+
+$ vmstat [options] [delay] [count]
+If the option -S m is given, memory statistics will be in MB instead of KB.
+the -a option, vmstat displays information about active and inactive memory
+$ vmstat -SM -a 2 4
+
+The pseudofile /proc/meminfo contains a wealth of information about how memory is being used.
+$ cat /proc/meminfo
+The /proc/sys/vm directory contains many tunable knobs to control the Virtual Memory system.
+$ ls /proc/sys/vm
+
+
+$ cat /proc/swaps
+$ free -m
+mkswap: format swap partitions or files
+swapon: activate swap partitions or files
+swapoff: deactivate swap partitions or files
+
+OOM Killer Algorithms
+One can modify and even turn off overcommission by setting the value of /proc/sys/vm/overcommit_memory:
+0: (default) Permit overcommission, but refuse obvious overcommits
+1: All memory requests are allowed to overcommit.
+2: Turn off overcommission.
+
+
+*** I/O MONITORING AND TUNING ***
+$ iostat [OPTIONS] [devices] [interval] [count]		utility for monitoring I/O device activity on the system.
+-k option, which shows results in KB instead of blocks
+-m to get results in MB.
+-x option more detailed report can be obtained by using the 
+
+$ iotop --help		It displays a table of current I/O usage and updates periodically, like top. 
+$ sudo iotop output
+-o option can be useful to avoid clutter
+
+$ bonnie++ --help	widely available benchmarking program that tests and measures the performance
+$  time sudo bonnie++ -n 0 -u 0 -r 100 -f -b -d /mnt
+-n 0means don’t perform the file creation tests.
+-u 0means run as root.
+-r 100means pretend you have 100 MB of RAM.
+-fmeans skip per character I/O tests.
+-bmeans do afsyncafter every write, which forces flushing to disk rather than just writing to cache.
+-d /mntjust specifies the directory to place the temporary file created; make sure it has enough space, in this case 300MB, available.
+
+
+*** VIRTUALIZATION OVERVIEW ***
+A host is the underlying physical operating system managing one or more virtual machines.
+A guest is the VM which is an instance of a complete operating system, running one or more applications.
+emulators: An application running on the current operating system would appear to another OS as a specific hardware environment.
+An Emulator runs completely in software.
+
+External hypervisor to the host operating system kernel: Xen
+Internal hypervisor to the host operating system kernel: KVM
+libvirt: toolkit to interact with virtualization technologies. It provides management for virtual machines, virtual networks, and storage, and is available on all enterprise Linux distributions.
+ls -lF /usr/bin/virt*
+virt-manager
+
+QEMU stands for Quick EMUlator. hypervisor that performs hardware emulation, or virtualization. It emulates CPUs by dynamically translating binary instructions between the host architecture and the emulated one.
+$ qemu-img --help | grep formats:
+vdi: Used by Oracle Virtual Box /// vmdk: Used by VMware
+$ qemu-img convert -O vmdk myvm.qcow2 myvm.vmdk
+
+Managing KVM can be done with both command line and graphical interfaces.
+Command line tools include: virt-* and qemu-*. Graphical interfaces include virt-manager, kimchi, OpenStack, oVirt, etc.
+
+
+*** CONTAINERS OVERVIEW ***
+Podman: docker for redhat systems
+Podman uses a child/parent forking model for container creation and management, while Docker uses a server/client model with a daemon running in the background for management.
+$ sudo dnf install podman podman-docker
+
+$ sudo dnf install podman podman-docker slirp4netns     # RHEL/CentOS, Fedora
+$ sudo apt install podman podman-docker slirp4netns     # Ubuntu-22.04, Debian
+$ sudo systemctl start podman.socket
+$ sudo podman search apache
+
+
+*** LINUX FILESYSTEMS AND THE VFS ***
+inode: he inode is used by the operating system to keep track of properties such as name, location, file attributes (permissions, ownership, etc.), access times and other items
+
+$ cat /proc/filesystems		You can see a list of the filesystem types currently registered and understood by the currently running Linux kernel
+
+full read and write access, including:
+ext4: Linux native filesystem (and earlier ext2 and ext3)
+XFS: A high-performance filesystem originally created by SGI
+JFS: A high-performance filesystem originally created by IBM
+Windows-natives: FAT12, FAT16, FAT32, VFAT, NTFS
+Pseudo-filesystems resident only in memory, including proc, sysfs, devfs, debugfs
+Network filesystems such as NFS, coda, afs
+
+Special Filesystems
+rootfs	None	During kernel load, provides an empty root directory
+hugetlbfs	Anywhere	Provides extended page access (2 or 4 MB on X86)
+bdev	None	Used for block devices
+proc	/proc	Pseudofilesystem access to many kernel structures and subsystems
+sockfs	None	Used by BSD Sockets
+tmpfs	Anywhere	RAM disk with swapping, re-sizing
+shm	None	Used by System V IPC Shared Memory
+pipefs	None	Used for pipes
+binfmt_misc	Anywhere	Used by various executable formats
+devpts	/dev/pts	Used by Unix98 pseudo-terminals
+usbfs	/proc/bus/usb	Used by USB sub-system for dynamical devices
+sysfs	/sys	Used as a device tree
+debugfs	/sys/kernel/debug	Used for simple debugging file access
+
+
+*** DISK PARTITIONING***
+$ sudo fdisk -l /dev/sdc |grep -i sector	geometry with fdisk
+ -l option which simply lists the partition table without entering interactive mode.
+
+MBR (Master Boot Record)
+GPT (GUID Partition Table)
+
+Modern hardware comes with GPT support; MBR support will gradually fade away.
+$ sudo blkid /dev/sda8		The blkid utility (to be discussed later) shows information about partitions.
+
+$ lsblk -h	block device information in a tree format
+
+>> dd can be used for converting and copying files.
+***be careful using dd: a simple typing error or misused option could destroy your entire disk.
+$ sudo dd if=mbrbackup of=/dev/sda bs=512 count=1
+x8:/tmp>sudo sgdisk -p /dev/sda
+
+
+fdisk is a menu-driven partition table editor
+sfdisk command is a non-interactive Linux-based partition editor program
+parted is the GNU partition manipulation program. 
+$ sudo fdisk /dev/sdb
+m: Display the menu
+p: List the partition table
+n: Create a new partition
+d: Delete a partition
+t: Change a partition type
+w: Write the new partition table information and exit
+q: Quit without making changes
+
+
+*** FILESYSTEM FEATURES: ATTRIBUTES, CREATING, CHECKING, USAGE, MOUNTING ***
+rpm -Va to check the integrity of all packages.
+$ sudo mount -o remount,rw /		remount it with write permission.
+$ sudo mount -a				to try and mount all filesystems
+$ fsck [-t fstype] [options] [device-file]	utility designed to check for errors
+
+df: Filesystem Usage
+du: Disk Usage
+
+mount program allows attaching at any point in the tree structure; 
+umount allows detaching them.
+$ mount [options] <source> <directory>
+$ umount [device-file | mount-point
+
+Network Shares (NFS)
+It is common to mount remote filesystems through network shares, so they appear as if they were on the local machine.
+$ sudo mount -t nfs myserver.com:/shdir /mnt/shdir​
+
+$ mount -a	is executed in order to mount all filesystems listed in the /etc/fstab file.
+
+ Network Block Device is a Linux protocol designed to export a block device from a source computer (server) to a target (client)
+Use dd to create an empty file
+Define the item to be shared by the server in a configuration file
+Activate the nbd kernel module
+Query the server with the client using the export name, IP address and port
+Associate the local /dev/nbd block driver with the server with the nbd-client command
+Use fdisk to partition the nbd
+Add a filesystem to the nbd and mount it
+
+nbdkit: CentOS, Fedora, Debian, Ubuntu
+nbd-client and nbd-server: Ubuntu, Debian
+nbd (from GitHub): CentOS, Fedora, Debian, Ubuntu
+xNBD-client and xNBD-server: Debian
+qemu-img: CentOS
+
+$ sudo nbd-server -C nbd-server.conf		Start the nbd server process
+
+*** The Ext4 Filesystem ***
+The ext4 filesystem can support volumes up to 1 EB and file sizes up to 16 TB. Extents replace the older block mapping mechanism.
+Include administrative information
+High redundancy of information in block groups
+Other blocks store file data
+
+sudo dumpe2fs /dev/sda1 | grep superblock
+
+the filesystem is checked every maximum-mount-counts or every 180 days, whichever comes first.
+$ sudo dumpe2fs /dev/sdb1	scan the filesystem information such as limits, capabilities and flags, as well as other attributes.
+
+tune2fs can be used to change filesystem parameters.
+$ sudo tune2fs -c 25 /dev/sda1
+
+
+*** LVM (Logical Volume Management) ***
+vg: There are a number of command line utilities used to create and manipulate volume groups, whose name always start with vg, including:
+vgcreate: Creates volume groups
+vgextend: Adds to volume groups
+vgreduce: Shrinks volume groups
+
+pv: Utilities that manipulate what physical partitions enter or leave volume groups start with pv and include:
+pvcreate: Converts a partition to a physical volume
+pvdisplay: Shows the physical volumes being used
+pvmove: Moves the data from one physical volume within the volume group to others; this might be required if a disk or partition is being removed for some reason. It would then be followed by:
+pvremove: Remove a partition from a physical volume
+
+lv: manipulate logical volumes
+$ ls -lF /sbin/lv*
+This is also true for most of the pv* and vg* utilities, as you can verify easily enough.
+
+lvcreate: allocates logical volumes from within volume groups.
+lvdisplay: reports on available logical volumes
+$ sudo pvcreate /dev/sdb1
+$ sudo pvcreate /dev/sdc1
+$ sudo vgcreate -s 16M vg /dev/sdb1
+$ sudo vgextend vg /dev/sdc1
+$ sudo lvcreate -L 50G -n mylvm vg
+$ sudo mkfs -t ext4 /dev/vg/mylvm
+$ sudo mkdir /mylvm
+$ sudo mount /dev/vg/mylvm /mylvm
+
+pvdisplay: shows one or more physical volumes information display
+$ pvdisplay /dev/sda5
+
+vgdisplay: shows one or more volume groups
+$ vgdisplay
+
+lvdisplay shows one or more logical volumes
+$ lvdisplay
+
+lvresize: When shrinking a logical volume with a filesystem, you must first shrink the filesystem, and then shrink the volume.
+$ sudo lvresize -r -L 20 GB /dev/VG/mylvm
+where the -r option causes resizing of the filesystem at the same time as the volume size is changed.
+
+$ sudo lvresize -r -L +100M /dev/vg/mylvm		grows size
+>>plus sign (+) indicates adding space
+$ sudo lvresize -r -L 200M /dev/vg/mylvm
+$ sudo pvmove /dev/sdc1
+$ sudo vgreduce vg /dev/sdc1			reduce a group
+
+also use lvextend, lvreduce with resize2fs.
+
+LVM snapshots create an exact copy of an existing logical volume. 
+$ sudo lvcreate -l 128 -s -n mysnap /dev/vg/mylvm		create a snapshot of an existing logical volume
+$ mkdir /mysnap
+$ mount -o ro /dev/vg/mysnap /mysnap				make a mount point and mount the snapshot
+$ sudo umount /mysnap
+$ sudo lvremove /dev/vg/mysnap					use the snapshot and to remove the snapshot 
+
+
+*** Kernel Services and Configuration ***
+Detailed documentation can be found:	By typing man bootparam
+
+explanation of some of the boot parameters:
+
+root: root filesystem (can be in the for of root=UUID=... or root=/dev/sda5 or root=LABEL=CentOS9, etc.)
+ro: mounts root device read-only on boot
+crashkernel=512M: how much memory to set aside for kernel crashdumps through the kdump facility
+quiet: disables most log messages
+selinux=0: disables SELinux
+
+linux /boot/vmlinuz-5.19.0 root=/dev/sda5 ro crashkernel=512M quiet selinux=0
+
+To see what command line a system was booted with, type the following command:
+$ cat /proc/cmdline
+Output:
+BOOT_IMAGE=(hd0,msdos2)/boot/vmlinuz-5.19.0 root=UUID=7f7221b8-60d8-41b9-b643-dfcc80527c37 ro rhgb quiet crashkernel=512M
+
+Boot Process Failures
+No bootloader screen:
+Kernel fails to load:
+Kernel loads but fails to mount the root filesystem:
+Failure during the init process
+
+$ sysctl -a		interface can be used to read and tune kernel parameters at run time.
+
+
+*** KERNEL MODULES ***
+lsmod:		List loaded modules.
+insmod:		Directly load modules.
+rmmod:		Directly remove modules.
+modprobe:	Load or unload modules, using a pre-built module database with dependency and location information.
+depmod:		Rebuild the module dependency database.
+modinfo:	Display information about a module.
+
+$ modprobe e1000e
+$ modprobe -r e1000e		-r command to unload or remove a module
+
+
+*** DEVICES AND UDEV ***
+udev, an intelligent apparatus for discovering hardware and peripheral devices both during system boot, and later when they are connected to the system.
+
+udev =  User Device management.
+udev works when during system boot and hotplugged at any time
+
+udev actions include:
+Device naming
+Device file and symlink creating
+Setting file attributes
+Taking needed actions
+
+device nodes can be used by programs to communicate with devices through nodes using normal I/O methods.
+$ ls -l /dev
+$ sudo mknod [-m mode] /dev/name <type> </major> <minor>		create device nodes
+
+The three components of udev are:
+
+The "libudev" library which allows access to information about the devices.
+The "udevd" or "systemd-udevd" daemon that manages the /dev directory.
+The "udevadm" utility for control and diagnostics.
+
+udev rules files are located under /etc/udev/rules.d/<rulename>.rules
+30-usb.rules
+90-mycustom.rules
+70-mouse.rules
+60-persistent-storage.rules
+
+$ cat /etc/udev/rules.d/99-fitbit.rules
+
+
+*** NETWORK ADRESSES ***
+The IP address is the number that identifies your system on the network
+
+IPv4 is a 32-bit address, composed of 4 octets (an octet is just 8 bits, or a byte).
+Example: 148.114.252.10
+IPv6 is a 128-bit address, composed of 8 16-bit octet pairs.
+Example: 2003:0db5:6123:0000:1f4f:0000:5529:fe23
+
+Unicast: An address associated with a specific host. It might be something like 140.211.169.4 or 64.254.248.193.
+Network: An address whose host portion is set to all binary zeroes. Ex. 192.168.1.0. (the host portion can be the last 1-3 octets as discussed later; here it is just the last octet).
+Broadcast: An address to which each member of a particular network will listen. It will have the host portion set to all 1 bits, such as in 172.16.255.255 or 148.114.255.255 or 192.168.1.255.
+Multticast: An address to which appropriately configured nodes will listen. The address 224.0.0.2 is an example of a multicast address. 
+
+Reserved Addresses
+127.x.x.x	Reserved for the loopback (local system) interface
+0.0.0.0		Used by systems that do not yet know their own address. Protocols like DHCP and BOOTP use this address when attempting to communicate with a server.
+255.255.255.255	Generic broadcast private address, reserved for internal use. These addresses are never assigned or registered to anyone. They are generally not routable.
+192.168.x.x	 is used only for local communications within a private network.
+
+IPv6 address types:
+1- Unicast - A packet is delivered to one interface.
+Link-local: Auto-configured for every interface to have one. Non-routable.
+Global: Dynamically or manually assigned. Routable.
+2- Multicast - A packet is delivered to multiple interfaces.
+3- Anycast
+4- IPv4-Mapped
+
+netmask is used to determine how much of the address is used for the network portion and how much for the host portion as we have seen.
+
+>>Getting and Setting the Hostname
+$ hostname			user can get the hostname
+$ sudo hostname lumpy		Changing hostname requires root privilege
+$ sudo hostnamectl set-hostname lumpy
+$ hostnamectl
+
+The Network Time Protocol (NTP) is a method to update and synchronize system time. 
+ntp - the default
+chrony - designed to work in a wide range of environments, including intermittent network connections and virtual machines
+systemd-timesyncd - an ntp client only included in the systemd package
+
+>>Configuring the ntpd Server
+Declare the local machine to be a time reference > The server and fudge directives
+Regulate who can query the time server with ntpq and ntpdc commands > The restrict directives
+Declare which systems are ntp peers > The peers are listed in the /etc/ntp.conf file
+Start NTP daemon
+
+
+*** NETWORK DEVICES AND CONFIGURATION ***
+ip is the command line utility used to configure, control and query interface parameters and manipulate devices, routing, tunnels, etc. It is preferred to the venerable ifconfig we discuss next, as it is more versatile, as well as more efficient because it uses netlink sockets, rather than ioctl system calls.
+ip [ OPTIONS ] OBJECT { COMMAND | help }
+ip [ -force ] -batch filename
+
+Main ip OBJECTs
+address	IPv4 or IPv6 protocol device address
+link	Network Devices
+maddress	Multicast Address
+monitor	Watch for netlink messages
+route	Routing table entry
+rule	Rule in the routing policy database
+tunnel	Tunnel over IP
+
+$ ip link show
+$ sudo ip addr add 192.168.1.7 dev eth0
+$ sudo ip link set eth0 down
+$ sudo ip route add 172.16.1.0/24 via 192.168.1.5
+
+$ ifconfig	Display information about all interfaces:
+$ ifconfig eth0	Display information only about the eth0 interface:
+$ sudo ifconfig eth0 netmask 255.255.255.0	Set the netmask to 24-bit:
+
+>>Network Manager Configuration Files
+ifupdown for /etc/network/interfaces
+ifcfg-rh for /etc/sysconfig/network-scripts
+ifcfg-suse is for simple compatibility for SUSE and openSUSE
+key-file is a generic replacement for system specific configuration files
+
+nmtui (network manager text user interface)
+nmcli (network manager command line interface)
+$ man nmcli-examples
+
+Routing is the process of selecting paths in a network along which to send network traffic
+$ route -n
+ ip route
+
+default route
+$ sudo nmcli con mod virbr0 ipv4.routes 192.168.10.0/24 +ipv4.gateway 192.168.122.0
+
+$ sudo route add default gw 192.168.1.10 enp2s0		you can set the default gateway at runtime
+$ route
+
+static route
+>>Bonding
+Uses a kernel module to provide aggregation of network links to provide fail-over, redundancy and performance enhancements
+sysfs: Direct changes to the /sys pseudofilesystem. Changes are not saved.
+iproute2: Supports bonding via the ip command; see man 8 ip-link for details. Changes are not saved.
+NetworkManager: All NetworkManager user interfaces support bonding
+
+Identify adapters: Use nmcli device status
+Create bonding device: Use nmcli connection add
+Attach interface to the bond: Create a connection from the adapter to the bond device using nmcli connection add
+Set the bond adapter online: Issue an nmcli connection up command for the bond adapter
+Reboot:
+
+>>Teaming
+Is similar to bonding, except teaming uses a userspace service named teamed.
+
+DNS and Name Resolution
+$ [dig | host | nslookup] linuxfoundation.org
+dig: generates the most information and has many options
+host: more compact
+nslookup: older
+
+>>Networking Problem Troubleshooting
+IP configuration
+Use ifconfig or ip to see if the interface is up, and if so, if it is configured
+Network Driver
+If the interface cannot be brought up, maybe the correct device driver for the network card(s) is not loaded.
+Use ping to see if the network is visible, checking for response time and packet loss. traceroute can follow packets through the network, while mtr can do this in a continuous fashion.
+Default gateway and routing configuration
+Run route -n and see if the routing table make sense
+Hostname resolution
+Run dig or host on a URL and see if DNS is working properly.
+
+$ ping -c 10 linuxfoundation.org
+$ traceroute linuxfoundation.org
+$ mtr linuxfoundation.org
+
+
+*** LDAP (Lightweight Directory Access Protocol) ***
+is a derivative of the x.500 specification for providing directory services (think phone book) via the IP protocol.
+TLS/SSL will provide a secure encrypted connection.
+
+
+*** FIREWALL ***
+A firewall establishes a set of rules by which each packet may be:
+
+Accepted or rejected based on content, address, etc.​
+Mangled in some way
+Redirected to another address
+Inspected for security reasons, etc.
+
+relatively low-level tools from the command line
+iptables, firewall-cmd, ufw,
+
+Using robust graphical interfaces: 
+system-config-firewall, firewall-config, gufw, yast
+
+firewalld is the Dynamic Firewall Manager
+$ sudo systemctl [enable/disable] firewalld
+$ sudo systemctl [start/stop] firewalld
+$ sudo firewall-cmd --state
+
+if you have more than one network interface when using IPv4, you have to turn on ip forwarding
+$ sudo sysctl net.ipv4.ip_forward=1
+$ echo 1 > /proc/sys/net/ipv4/ip_forward
+$ firewall-cmd --help
+$ sudo firewall-cmd --get-active-zones
+$ sudo firewall-cmd --set-default-zone=public
+$ sudo firewall-cmd --permanent --zone=internal --change-interface=eno1
+man firewalld-cmd
+
+$ sudo firewall-cmd --get-services		To see all the services available
+$ sudo firewall-cmd --list-services --zone=public	to see those currently accessible in a particular zone
+$ sudo firewall-cmd --permanent --zone=home --add-service=dhcp		add a service to a zone
+$ sudo firewall-cmd --zone=external --list-all
+$ sudo firewall-cmd --zone=external --add-forward-port=port=80:proto=tcp:toport=8080
+
+>>Network Address Translation (NAT) is a method the firewall uses to change the packet source
+DNAT (Destination Network Address Translation) 
+SNAT (Source Network Address Translation)
+Masquerade, a variation of SNAT
+
+
+*** SYSTEM INIT: SYSTEMD, SYSTEMV AND UPSTART ***
+The /sbin/init program (usually just called init) is the first user-level process (or task) run on the system and continues to run until the system is shut down.
+The target was multi-user mainframe systems (and not personal computers, laptops, and other devices)
+The target was a single processor system
+Startup (and shutdown) time was not an important matter; it was far less important than getting things right.
+
+Three most common implementations include systemd, Upstart and SysVinit, but all major distributions have now moved to systemd.
+
+startup alternatives = upstart or systemd
+
+>>systemctl is the main utility for managing services.
+$ systemctl [options] command [name]
+$ systemctl list-units -t service --all
+
+To start (activate) or stop (deactivate) one or more units:
+$ sudo systemctl start foo
+$ sudo systemctl start foo.service
+$ sudo systemctl start /path/to/foo.service
+$ sudo systemctl stop foo.service
+
+To enable/disable a service:
+$ sudo systemctl enable sshd.service
+$ sudo systemctl disable sshd.service
+
+
+*** BACKUP AND RECOVERY METHODS ***
+cpio and tar create and extract archives of files.
+The archives are often compressed with gzip, bzip2, or xz. The archive file may be written to disk, magnetic tape, or any other device which can hold files.
+dd is a powerful utility often used to transfer raw data between media.
+rsync is a powerful utility that can synchronize directory subtrees or entire filesystems across a network, or between different filesystem locations on a local machine.
+dump and restore are ancient utilities which were designed specifically for backups. 
+mt is used for querying and positioning tapes before performing backups and restores.
+
+$ tar cvf  /dev/st0 /root	Create an archive using -c or just c:
+$ tar -cvf /dev/st0 /root
+$ tar -cMf /dev/st0 /root	Create with multi-volume option, using -M:
+It even has a --newer option that lets you do incremental backups.
+Using tar for Restoring Files : The -x or --extract option extracts files from an archive, all by default
+The -p or --same-permissions options ensures files are restored with their original permissions.
+The -t or --list option lists, but does not extract, the files in the archive.
+$ tar --extract --same-permissions --verbose --file /dev/st0
+$ tar -xpvf /dev/st0
+$ tar  xpvf /dev/st0
+
+You can do an incremental backup with tar using the -N (or the equivalent --newer), or the --after-date options
+$ tar --create --newer '2011-12-1' -vzf backup1.tgz /var/tmp
+$ tar --create --after-date '2011-12-1' -vzf backup1.tgz /var/tmp
+
+gzip: Uses Lempel-Ziv Coding (LZ77) and produces .gz files.
+bzip2: Uses Burrows-Wheeler block sorting text compression algorithm and Huffman coding, and produces .bz2 files.
+xz: Produces .xz files and also supports legacy .lzma format.
+The Linux Kernel Archives only uses xz format now for downloading Linux kernels.
+The compression utilities are very easily (and often) used in combination with the tar command:
+$ tar zcvf source.tar.gz source
+$ tar jcvf source.tar.bz2 source
+$ tar Jcvf source.tar.xz source
+
+dd is a common UNIX-based program whose primary purpose is the low-level copying and conversion of raw data.
+$ dd if=input-file of=output-file options		The basic syntax
+$ dd if=/dev/zero of=outfile bs=1M count=10		Create a file with the following command:
+
+rsync (remote synchronize) is used to transfer files across a network (or between different locations on the same machine), as in:
+$ rsync [options] sourcefile destinationfile		basic syntax
+$ rsync file.tar someone@backup.mydomain:/usr/local
+$ rsync -r --dry-run /usr/local /BACKUP/usr
+
+
+*** LINUX SECURITY MODULES ***
+Originally, only one LSM could be used at a time as they can potentially modify the same parts of the Linux kernel.
+The current LSM implementations are:
+SELinux
+AppArmor
+Smack
+Tomoyo
+Yama 
+
+SELinux was originally developed by the United States NSA (National Security Administration) and has been integral to RHEL for a very long time, which has brought it a large usage base.
+SELinux can be run under one of three modes
+enforcement, permissive, disabled
+The "sestatus" utility can display the current mode and policy.
+Use "getenforce" and "setenforce" to see or set current mode.
+$ getenforce		Enforcing
+$ sudo setenforce 	Permissive
+$ getenforce		Permissive
+
+The default policy in which SELinux is more restricted to targeted processes. The Multi-Level Security policy is much more restrictive; all processes are placed in fine-grained security domains with particular policies.
+
+There are four SELinux contexts:
+User
+Role
+Type
+Level
+
+Use the -Z option to see the context (commands below):
+$ ls -Z
+$ ps auZ
+
+Use the chcon command to change context (commands and outputs below):
+$ chcon -t etc_t somefile
+$ chcon --reference somefile someotherfile
+$ ls -Z
+
+restorecon resets file contexts, based on parent directory settings
+$ ls -Z
+$ restorecon -Rv /home/jimih
+$ ls -Z
+
+semanage fcontext (provided by the policycoreutils-python package) can change and display the default context of files and directories. Note that semanage fcontext only changes the default settings; it does not apply them to existing objects.
+its created because of semanage
+Another issue is how to configure the default context for a newly created directory.
+
+[root@rhel7 /]# mkdir /virtualHosts
+[root@rhel7 /]# ls -Z
+[root@rhel7 /]# semanage fcontext -a -t httpd_sys_content_t /virtualHosts
+[root@rhel7 /]# ls -Z
+
+getsebool - to see booleans
+setsebool - to set booleans
+semanage boolean -l - to see persistent boolean settings.
+$ setsebool allow_ftpd_anon_write on
+$ getsebool allow_ftpd_anon_write
+  allow_ftpd_anon_write -> on
+$ semanage boolean -l | grep allow_ftpd_anon_write
+$ allow_ftpd_anon_write -> off
+
+>>Monitoring SELinux Access
+These utilities are provided by the setroubleshoot-server package. 
+After installing the setroubleshoot-server utility, restart the auditd service
+It stores raw messages in /var/log/audit/audit.log
+Moves messages to /var/log/messages
+You can use sealert to see detailed messages
+
+>>AppArmor
+AppArmor
+AppArmor is an LSM alternative to SELinux. Support for it has been incorporated in the Linux kernel since 2006. It has been used by SUSE, Ubuntu and other distributions.
+Provides Mandatory Access Control (MAC)
+Allows administrators to associate a security profile to a program which restricts its capabilities
+Is considered easier (by some but not all) to use than SELinux
+Is considered filesystem-neutral (no security labels required)
+
+Assuming ​you have the AppArmor kernel module available, on a systemd-equipped system you can run this command:
+$ sudo systemctl [start|stop|restart|status] apparmor
+to change or inquire about the current state of operation
+
+In order to see the current status, do (command and output below):
+$ sudo apparmor_status
+
+AppArmor has quite a few administrative utilities for monitoring and control. For example, on an openSUSE system (command and output below):
+$ rpm -qil apparmor-utils | grep bin
+
+AppArmor Utilities
+apparmor_status	Show status of all profiles and processes with profiles
+apparmor_notify	Show a summary for AppArmor log messages
+complain	Set a specified profile to complain mode
+enforce		Set a specified profile to enforce mode
+disable		Unload a specified profile from the current kernel and prevent from being loaded on system startup
+logprof		Scan log files, and, if AppArmor events that are not covered by existing profiles have been recorded, suggest how to take into account, and, if approved, modify and reload
+easyprof	Help set up a basic AppArmor profile for a program
+
+
+>>Modes and Profiles
+Processes can be run in either of the two modes:
+Enforce Mode : Applications are prevented from acting in ways which are restricted.
+Complain Mode : Policies are not enforced, but attempted policy violations are reported.
+
+
+*** SYSTEM RESCUE ***
+Rescue disks contain many useful programs:
+>Disk utilities for creating partitions, managing RAID devices, managing logical volume, and creating filesystems: 
+fdisk, mdadm, pvcreate, vgcreate, lvcreate, mkfs, etc.
+>Networking utilities for network debugging and network connectivity: 
+ifconfig, route, traceroute, mtr, host, ftp, scp, ssh, etc.
+>Numerous other commands are also available: 
+bash, chroot, ps, kill, vi, dd, tar, cpio, gzip, rpm, mkdir, ls, cp, mv, and rm to name a few.
+
+$ sudo chroot /mnt/sysimage
+$ sudo rpm -ivh --force --root=/mnt/sysimage /mnt/source/Packages/vsftpd-2*.rpm
+
+Rescue USB Key
+Many distributions provide a boot.iso image file for download (the name may differ). You can use dd to place this on a USB key drive as in this command:
+$ dd if=boot.iso of=/dev/sdX
+
+Helpful utilities such as livecd-tools and liveusb-creator allow specification of either a local drive or the Internet as the location for obtaining an install image, and then do all the hard work of constructing a bootable image and burning it on the removable drive. 
+
+If your system boots, but does not allow you to log in when it has completed booting, try single user mode. In single user mode:
+init is started
+Services are not started
+Network is not activated
+All possible filesystems are mounted
+root access is granted without a password
+A system maintenance command line shell is launched
+
+
+
